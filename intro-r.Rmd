@@ -7,6 +7,7 @@ output: statsr:::statswithr_lab
 
 <div class="instructions">
 
+
 </div>
 ## Getting Started
 
@@ -71,6 +72,10 @@ Next, you need to load the packages in your working environment. We do this with
 the `library` function. Note that you only need to **install** packages once, but
 you need to **load** them each time you relaunch RStudio.
 
+```{r first-code-chunk}
+4+12
+```
+
 ```{r load-packages, message = FALSE}
 library(dplyr)
 library(ggplot2)
@@ -115,6 +120,11 @@ For example, Joan's  would be
 
 library(usethis)
 use_git_config(user.name="joan-combs-durso", user.email="joan.durso@duke.edu")
+
+```{r GitHub-account}
+library(usethis)
+use_git_config(user.name="lillian-dukes", user.email="lillian.dukes@duke.edu")
+```
 
 Now your facilitators will help you get started with forking the package.
 
@@ -233,7 +243,7 @@ We can access the data in
 a single column of a data frame separately using a command like
 
 ```{r view-clarity}
-
+#how to access a single column of data; produces a vector in r
 diamonds$clarity[1:100]
 ```
 
@@ -268,9 +278,10 @@ R has some powerful functions for making graphics. We can create a simple plot
 of the price of diamonds by their weight measured in carats with the command
 
 ```{r plot-price-vs-carat}
-ggplot(data = diamonds, aes(x = carat, y = price)) +
-  geom_point()
-```
+ggplot(data = diamonds, aes(x = carat, y = price, color=clarity)) +
+  geom_point ()
+``` 
+
 
 Before we review the code for this plot, let's summarize the trends we see in the 
 data.
@@ -402,11 +413,23 @@ Now, with your partner, play with mutate and piping and create a plot of interes
 
 ```{r plot-of-something-interesting}
 # type your code for the Exercise here, and Knit
-
+diamonds <- diamonds%>%
+  mutate(pricepermm = price / total)
 
 
 ```
 
+```{r graph-of-something-interesting}
+ggplot(data = diamonds, aes(x = clarity, y = pricepermm)) +
+  geom_line() +
+  geom_point()
+
+```
+```{r lily-graph-2}
+ggplot(data = diamonds, aes(x = total, y = price, color = pricepermm)) + 
+  geom_line() + 
+  geom_point()
+```
 Finally, in addition to simple mathematical operators like subtraction and 
 division, you can ask R to make logical comparisons like greater than, `>`, less than,
 `<`, and equality, `==`. For example, we can ask if the x dimension is greater than 
@@ -446,6 +469,15 @@ Let's get the means of the stone prices.
 diamonds %>%
   summarise(mean = mean(price), sd = sd(price), median = median(price))
 ```
+
+```{r try-averaging-diamond-prices-2}
+diamonds %>%
+  group_by(color) %>%
+  summarise(mean = mean(price),
+            sd = sd(price))
+```
+
+
 
 ## Resources for learning R and working in RStudio
 
